@@ -1,0 +1,44 @@
+<h5>QUIZ MAKER</h5>
+<div class="container">
+  <ng-container>
+    <form [formGroup]="quizMakerForm" (ngSubmit)="onSubmit()">
+      <select
+        id="categorySelect"
+        name="categorySelect"
+        formControlName="category"
+      >
+        <ng-container
+          *ngIf="categoryList$ | async as categoryList; else loading"
+        >
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categoryList" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </ng-container>
+        <ng-template #loading>
+          <option value="">Loading categories...</option>
+        </ng-template>
+      </select>
+
+      <select
+        id="difficultySelect"
+        name="difficultySelect"
+        formControlName="difficulty"
+      >
+        <option value="">Select difficulty</option>
+        <option
+          *ngFor="let difficulty of difficultyLevels"
+          [value]="difficulty"
+        >
+          {{ difficulty | titlecase }}
+        </option>
+      </select>
+      <button id="createBtn" type="submit" [disabled]="quizMakerForm.invalid">
+        Create
+      </button>
+    </form>
+  </ng-container>
+</div>
+<div *ngIf="quizData$ | async as quiz" class="quiz-questions">
+  <app-quiz-questions [quizData]="quiz"> </app-quiz-questions>
+</div>

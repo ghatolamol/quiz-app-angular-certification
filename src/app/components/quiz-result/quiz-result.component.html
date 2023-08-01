@@ -1,0 +1,39 @@
+<div style="padding-left:10px">
+  <h5>RESULTS</h5>
+  <div *ngFor="let quiz of quizData; index as i">
+    <div [innerHTML]="quiz.question | safeHtml"></div>
+    <ng-container *ngFor="let option of quiz.options">
+      <button
+        [ngClass]="
+          option == quiz.correct_answer
+            ? 'correct-answer'
+            : quiz.incorrect_answers.indexOf(option) > -1 &&
+              userAnswers[i] == option
+            ? 'wrong-answer'
+            : ''
+        "
+        [innerHTML]="option | safeHtml"
+      ></button>
+    </ng-container>
+    <hr />
+  </div>
+
+  <br />
+
+  <div class="score-container">
+    <div
+      class="score-message"
+      [ngClass]="{
+        'red-bg': score >= 0 && score <= 1,
+        'yellow-bg': score >= 2 && score <= 3,
+        'green-bg': score >= 4 && score <= 5
+      }"
+    >
+      You have scored {{ score }} out of {{ quizData.length }}
+    </div>
+  </div>
+  <br />
+  <button type="button" class="create-quiz-button" (click)="createNewQuiz()">
+    Create a new quiz
+  </button>
+</div>

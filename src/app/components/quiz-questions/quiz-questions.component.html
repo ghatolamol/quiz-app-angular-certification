@@ -1,0 +1,23 @@
+<form>
+  <div *ngFor="let quiz of quizData; index as i">
+    <div [innerHTML]="quiz.question | safeHtml"></div>
+    <ng-container *ngFor="let option of quiz.options">
+      <button
+        [innerHTML]="option | safeHtml"
+        appHighlight
+        (click)="onSelectOption(i, option)"
+        [ngClass]="{ selected: userAnswers[i] == option }"
+      ></button>
+    </ng-container>
+    <hr />
+  </div>
+
+  <button
+    *ngIf="showQuizSubmitBtn"
+    class="submit-button"
+    type="submit"
+    (click)="submitQuiz()"
+  >
+    Submit
+  </button>
+</form>
